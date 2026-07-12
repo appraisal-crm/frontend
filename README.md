@@ -9,10 +9,10 @@ rationale.
 ```
 apps/
   client/     EXTERNAL public portal  — request-service (submit / track a request)
-  office/     INTERNAL staff app      — request-service + inspect-service, role-gated in-app
+  office/     INTERNAL staff app      — request-service + inspect-service + review-service, role-gated in-app
 packages/
   ui/          shared design system / components
-  api-client/  typed clients for request-service + inspect-service
+  api-client/  typed clients for request-service + inspect-service + review-service
   auth/        Keycloak OIDC (Auth Code + PKCE), token store, role guards
   tsconfig/    shared TypeScript configs
   eslint-config/ shared ESLint flat config
@@ -24,7 +24,7 @@ apps transpile them through Vite.
 ## Prerequisites
 
 - Node ≥ 20, pnpm 11
-- Backend running (see repo root): `../infra`, `../request-service`, `../inspect-service`
+- Backend running (see repo root): `../infra`, `../request-service`, `../inspect-service`, `../review-service`
 - Keycloak realm `appraisal` bootstrapped (see `../request-service/docs/onboarding.md`)
 
 ## Keycloak client — one-time tweak for the SPA
