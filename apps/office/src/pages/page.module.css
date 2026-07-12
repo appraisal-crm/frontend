@@ -1,0 +1,8 @@
+.center {
+  display: grid;
+  place-items: center;
+  padding: var(--space-16) 0;
+}
+.gap {
+  margin-top: var(--space-4);
+}

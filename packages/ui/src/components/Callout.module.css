@@ -1,0 +1,20 @@
+.callout {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--_c, var(--ink-muted));
+  background: var(--_bg, var(--surface-sunken));
+  color: var(--_c, var(--ink));
+  font-size: var(--text-sm);
+}
+.danger {
+  --_c: var(--danger);
+  --_bg: var(--danger-wash);
+}
+.go {
+  --_c: var(--go);
+  --_bg: var(--go-wash);
+}
+.info {
+  --_c: var(--accent-strong);
+  --_bg: var(--accent-wash);
+}

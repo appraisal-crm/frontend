@@ -1,0 +1,10 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.center {
+  display: grid;
+  place-items: center;
+  padding: var(--space-16) 0;
+}

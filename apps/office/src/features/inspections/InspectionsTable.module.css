@@ -1,0 +1,102 @@
+.table {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.head,
+.row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.4fr) minmax(120px, 1fr) auto minmax(160px, auto);
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-4) var(--space-6);
+}
+.head {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: var(--surface-inset);
+  border-bottom: 1px solid var(--line);
+}
+.row + .row,
+.head + .row {
+  border-top: 1px solid var(--line);
+}
+.row:hover {
+  background: var(--surface-inset);
+}
+
+.req {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.reqId {
+  font-weight: 600;
+}
+.date {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--ink-faint);
+}
+
+.assignee .mono,
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+}
+.unassigned {
+  font-size: var(--text-sm);
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+.action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.assignForm {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.assignForm input {
+  width: 190px;
+  padding: 5px 9px;
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+}
+
+@media (max-width: 820px) {
+  .head {
+    display: none;
+  }
+  .row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "req status"
+      "assignee assignee"
+      "action action";
+    row-gap: var(--space-3);
+  }
+  .req {
+    grid-area: req;
+  }
+  .assignee {
+    grid-area: assignee;
+  }
+  .action {
+    grid-area: action;
+    justify-content: flex-start;
+  }
+  .assignForm input {
+    width: 100%;
+  }
+}
