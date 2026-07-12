@@ -1,4 +1,4 @@
-import { ClipboardList, HardHat } from 'lucide-react';
+import { ClipboardList, HardHat, Scale } from 'lucide-react';
 import type { ComponentType } from 'react';
 
 export interface NavItem {
@@ -11,6 +11,7 @@ export interface NavItem {
 export const navItems: NavItem[] = [
   { to: '/requests', labelKey: 'nav.requests', icon: ClipboardList, roles: ['appraiser', 'admin'] },
   { to: '/inspections', labelKey: 'nav.inspections', icon: HardHat, roles: ['inspector', 'appraiser', 'admin'] },
+  { to: '/appraisals', labelKey: 'nav.appraisals', icon: Scale, roles: ['appraiser', 'admin'] },
 ];
 
 export function visibleNav(roles: string[]): NavItem[] {

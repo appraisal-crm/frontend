@@ -3,6 +3,8 @@ import { AppShell } from '../components/AppShell';
 import { HomeRedirect } from '../components/HomeRedirect';
 import { RequireAuth } from '../components/RequireAuth';
 import { RequireRole } from '../components/RequireRole';
+import { AppraisalPage } from '../pages/AppraisalPage';
+import { AppraisalsPage } from '../pages/AppraisalsPage';
 import { CallbackPage } from '../pages/CallbackPage';
 import { ForbiddenPage } from '../pages/ForbiddenPage';
 import { InspectionPage } from '../pages/InspectionPage';
@@ -44,6 +46,22 @@ export function App() {
             element={
               <RequireRole anyOf={['inspector', 'appraiser', 'admin']}>
                 <InspectionPage />
+              </RequireRole>
+            }
+          />
+          <Route
+            path="appraisals"
+            element={
+              <RequireRole anyOf={['appraiser', 'admin']}>
+                <AppraisalsPage />
+              </RequireRole>
+            }
+          />
+          <Route
+            path="appraisals/:id"
+            element={
+              <RequireRole anyOf={['appraiser', 'admin']}>
+                <AppraisalPage />
               </RequireRole>
             }
           />

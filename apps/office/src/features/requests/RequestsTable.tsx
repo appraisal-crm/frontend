@@ -9,6 +9,7 @@ import { Badge, Button, StageRail, type BadgeTone } from '@appraisal/ui';
 import { ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '../../lib/format';
+import { AppraisalLink } from '../appraisals/AppraisalLink';
 import { useAdvanceStatus } from './queries';
 import styles from './RequestsTable.module.css';
 
@@ -47,6 +48,10 @@ export function RequestsTable({ requests }: { requests: AppraisalRequest[] }) {
               <span className={styles.id}>
                 № {r.id.slice(0, 8)} · {formatDate(r.created_at)}
               </span>
+              <AppraisalLink
+                requestId={r.id}
+                enabled={requestStatusIndex(r.status) >= requestStatusIndex('appraisal')}
+              />
             </div>
 
             <div className={styles.rail}>
