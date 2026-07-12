@@ -1,0 +1,110 @@
+.screen {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+  padding: var(--space-6) var(--space-6) var(--space-5);
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) 0 var(--space-8);
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.hero {
+  align-self: center;
+  max-width: 720px;
+  padding-bottom: var(--space-12);
+}
+
+.title {
+  margin-top: var(--space-4);
+  font-size: clamp(2.25rem, 6vw, var(--text-4xl));
+  letter-spacing: -0.03em;
+}
+.accent {
+  color: var(--accent);
+}
+
+.lead {
+  margin-top: var(--space-5);
+  max-width: 54ch;
+  font-size: var(--text-lg);
+  line-height: 1.55;
+  color: var(--ink-muted);
+}
+
+.panel {
+  position: relative;
+  margin: var(--space-10) 0;
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+/* drafting corner ticks */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--accent);
+}
+.panel::before {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+  border-top-left-radius: var(--radius-lg);
+}
+.panel::after {
+  bottom: -1px;
+  right: -1px;
+  border-left: 0;
+  border-top: 0;
+  border-bottom-right-radius: var(--radius-lg);
+}
+
+.panelHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-8);
+}
+.panelId {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--ink-faint);
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+@media (max-width: 640px) {
+  .panel {
+    padding: var(--space-6) var(--space-5);
+  }
+  .foot {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

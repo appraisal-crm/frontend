@@ -1,0 +1,33 @@
+.intro {
+  margin-bottom: var(--space-8);
+}
+.h1 {
+  margin-top: var(--space-2);
+  font-size: var(--text-3xl);
+}
+.sub {
+  margin-top: var(--space-3);
+  max-width: 52ch;
+  color: var(--ink-muted);
+  font-size: var(--text-lg);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+.aside {
+  position: sticky;
+  top: calc(var(--header-h) + var(--space-6));
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .aside {
+    position: static;
+  }
+}
