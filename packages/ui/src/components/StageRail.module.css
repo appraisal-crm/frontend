@@ -1,0 +1,174 @@
+.rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.step {
+  --_line: var(--line-strong);
+  --_dot: var(--surface);
+  --_dotBd: var(--line-strong);
+  --_ink: var(--ink-faint);
+  display: grid;
+  grid-template-rows: auto auto auto;
+  justify-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.step[data-state="done"] {
+  --_line: var(--ink-muted);
+  --_dot: var(--ink-muted);
+  --_dotBd: var(--ink-muted);
+  --_ink: var(--ink-muted);
+}
+.step[data-state="current"] {
+  --_line: var(--ink-muted);
+  --_dot: var(--accent);
+  --_dotBd: var(--accent);
+  --_ink: var(--accent-strong);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--_ink);
+}
+
+.markerRow {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 14px;
+}
+/* connecting line: left half from previous, right half to next */
+.markerRow::before,
+.markerRow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  width: 50%;
+  transform: translateY(-50%);
+  /* faint ruler ticks ride on the segment */
+  background-image: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 7px);
+  color: var(--_line);
+}
+.markerRow::before {
+  left: 0;
+}
+.markerRow::after {
+  right: 0;
+  /* the reach to the NEXT step is owned by this step's forward color */
+}
+.step[data-first] .markerRow::before {
+  display: none;
+}
+.step[data-last] .markerRow::after {
+  display: none;
+}
+/* the line leaving a done/current step toward the next should read as travelled */
+.step[data-state="todo"] .markerRow::after {
+  color: var(--line-strong);
+}
+
+.marker {
+  position: relative;
+  z-index: 1;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--_dot);
+  border: 2px solid var(--_dotBd);
+  box-shadow: 0 0 0 4px var(--surface);
+}
+.step[data-state="current"] .marker {
+  width: 13px;
+  height: 13px;
+  box-shadow:
+    0 0 0 4px var(--surface),
+    0 0 0 6px var(--accent-wash);
+}
+
+.name {
+  font-size: var(--text-2xs);
+  line-height: 1.25;
+  text-align: center;
+  color: var(--_ink);
+}
+.step[data-state="current"] .name {
+  font-weight: 600;
+}
+
+/* — compact: slim inline tape for dense rows — */
+.rail[data-variant="compact"] .step {
+  gap: 0;
+}
+.rail[data-variant="compact"] .num,
+.rail[data-variant="compact"] .name {
+  display: none;
+}
+.rail[data-variant="compact"] .markerRow {
+  height: 10px;
+}
+.rail[data-variant="compact"] .marker {
+  width: 7px;
+  height: 7px;
+  border-width: 1.5px;
+  box-shadow: 0 0 0 3px var(--surface);
+}
+.rail[data-variant="compact"] .step[data-state="current"] .marker {
+  width: 9px;
+  height: 9px;
+  box-shadow:
+    0 0 0 3px var(--surface),
+    0 0 0 4px var(--accent-wash);
+}
+
+/* — vertical on narrow screens (full only) — */
+@media (max-width: 640px) {
+  .rail[data-variant="full"] {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    row-gap: 0;
+  }
+  .rail[data-variant="full"] .step {
+    grid-template-rows: auto;
+    grid-template-columns: 34px 14px 1fr;
+    justify-items: start;
+    align-items: center;
+    gap: 12px;
+    min-height: 40px;
+  }
+  .rail[data-variant="full"] .num {
+    text-align: right;
+    width: 100%;
+  }
+  .rail[data-variant="full"] .markerRow {
+    width: 14px;
+    height: 100%;
+  }
+  .rail[data-variant="full"] .markerRow::before,
+  .rail[data-variant="full"] .markerRow::after {
+    width: 2px;
+    height: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-image: repeating-linear-gradient(180deg, currentColor 0 1px, transparent 1px 7px);
+  }
+  .rail[data-variant="full"] .markerRow::before {
+    top: 0;
+  }
+  .rail[data-variant="full"] .markerRow::after {
+    top: auto;
+    bottom: 0;
+  }
+  .rail[data-variant="full"] .name {
+    text-align: left;
+  }
+}

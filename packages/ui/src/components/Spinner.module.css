@@ -1,0 +1,24 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+}
+.ring {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
