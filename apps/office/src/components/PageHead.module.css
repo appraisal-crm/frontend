@@ -1,0 +1,21 @@
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+.title {
+  font-size: var(--text-2xl);
+}
+.count {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  color: var(--ink-faint);
+}
