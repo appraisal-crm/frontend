@@ -1,6 +1,6 @@
 import { requestStatusOrder } from '@appraisal/api-client';
 import { useAuth } from '@appraisal/auth';
-import { Button, StageRail } from '@appraisal/ui';
+import { Button, StageRail, useTheme } from '@appraisal/ui';
 import { ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Brand } from './Brand';
@@ -10,7 +10,8 @@ import styles from './SignInScreen.module.css';
 
 export function SignInScreen() {
   const { login } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { theme } = useTheme();
   const stages = requestStatusOrder.map((key) => ({ key, label: t(`stage.${key}`) }));
 
   return (
@@ -39,15 +40,14 @@ export function SignInScreen() {
           <StageRail stages={stages} current={2} />
         </div>
 
-        <Button size="md" onClick={() => void login()}>
+        <Button size="md" onClick={() => void login({ locale: i18n.language, theme })}>
           {t('signin.cta')}
           <ArrowRight size={16} strokeWidth={2.25} />
         </Button>
       </main>
 
       <footer className={styles.foot}>
-        <span>Appraisal CRM</span>
-        <span>{t('signin.footAuth')}</span>
+        <span>{t('signin.footBrand')}</span>
       </footer>
     </div>
   );

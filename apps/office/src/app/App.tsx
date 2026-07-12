@@ -5,6 +5,7 @@ import { RequireAuth } from '../components/RequireAuth';
 import { RequireRole } from '../components/RequireRole';
 import { CallbackPage } from '../pages/CallbackPage';
 import { ForbiddenPage } from '../pages/ForbiddenPage';
+import { InspectionPage } from '../pages/InspectionPage';
 import { InspectionsPage } from '../pages/InspectionsPage';
 import { RequestsPage } from '../pages/RequestsPage';
 import { Providers } from './providers';
@@ -35,6 +36,14 @@ export function App() {
             element={
               <RequireRole anyOf={['inspector', 'appraiser', 'admin']}>
                 <InspectionsPage />
+              </RequireRole>
+            }
+          />
+          <Route
+            path="inspections/:id"
+            element={
+              <RequireRole anyOf={['inspector', 'appraiser', 'admin']}>
+                <InspectionPage />
               </RequireRole>
             }
           />

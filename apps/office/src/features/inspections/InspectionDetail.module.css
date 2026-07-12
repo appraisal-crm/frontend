@@ -1,0 +1,78 @@
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+.completeBtn {
+  margin-left: auto;
+}
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.propLabel {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.propEmpty {
+  margin: 0 0 var(--space-2);
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+}
+.propRow {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr auto;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  align-items: center;
+}
+.saveRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.savedNote {
+  color: var(--go);
+  font-size: var(--text-sm);
+}
+.photoList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.photoList li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+.photoOk {
+  color: var(--go);
+  font-size: var(--text-xs);
+}
+.photoStub {
+  color: var(--warn);
+  font-size: var(--text-xs);
+}

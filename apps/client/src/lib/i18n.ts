@@ -3,7 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 const ru = {
-  brand: { name: 'ОЦЕНКА', sub: 'кабинет клиента' },
+  brand: { name: 'АВАНГАРД', sub: 'кабинет клиента' },
   common: { signIn: 'Войти', signOut: 'Выйти', loading: 'Загрузка' },
   theme: { light: 'Светлая тема', dark: 'Тёмная тема' },
   lang: { switch: 'English' },
@@ -39,7 +39,7 @@ const ru = {
     lead: 'Подайте заявку на оценку объекта и следите, как она продвигается: от приёма до готового отчёта. Никаких звонков «узнать статус» — процесс виден целиком.',
     panelStage: 'Стадия заявки',
     cta: 'Войти и подать заявку',
-    footAuth: 'Вход через корпоративный аккаунт (Keycloak)',
+    footBrand: 'ООО «Авангард»',
   },
   home: { title: 'Заявки на оценку', sub: 'Подайте новую заявку и следите за её движением по этапам.', newRequest: 'Новая заявка' },
   form: {
@@ -63,11 +63,11 @@ const ru = {
     emptyBody: 'Подайте первую заявку — она появится здесь вместе со шкалой статуса.',
   },
   card: { noAddress: 'Адрес не указан' },
-  layout: { footer: 'Appraisal CRM · оценка недвижимости', userFallback: 'Клиент' },
+  layout: { footer: 'ООО «Авангард» · оценка недвижимости', userFallback: 'Клиент' },
 };
 
 const en: typeof ru = {
-  brand: { name: 'APPRAISAL', sub: 'client portal' },
+  brand: { name: 'AVANGARD', sub: 'client portal' },
   common: { signIn: 'Sign in', signOut: 'Sign out', loading: 'Loading' },
   theme: { light: 'Light theme', dark: 'Dark theme' },
   lang: { switch: 'Русский' },
@@ -103,7 +103,7 @@ const en: typeof ru = {
     lead: 'Submit a request to have your property appraised and watch it move — from intake to the final report. No “what’s the status” calls; the whole process is visible.',
     panelStage: 'Request stage',
     cta: 'Sign in to submit a request',
-    footAuth: 'Sign in with your corporate account (Keycloak)',
+    footBrand: 'Avangard LLC',
   },
   home: { title: 'Appraisal requests', sub: 'Submit a new request and track it through the stages.', newRequest: 'New request' },
   form: {
@@ -127,7 +127,7 @@ const en: typeof ru = {
     emptyBody: 'Submit your first request — it will appear here with a status track.',
   },
   card: { noAddress: 'No address' },
-  layout: { footer: 'Appraisal CRM · property valuation', userFallback: 'Client' },
+  layout: { footer: 'Avangard LLC · property valuation', userFallback: 'Client' },
 };
 
 void i18n

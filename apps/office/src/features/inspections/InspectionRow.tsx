@@ -3,6 +3,7 @@ import { Badge, Button, Input } from '@appraisal/ui';
 import { Check, UserPlus } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { formatDate } from '../../lib/format';
 import { useAssignInspector, useCompleteInspection } from './queries';
 import styles from './InspectionsTable.module.css';
@@ -36,7 +37,9 @@ export function InspectionRow({
   return (
     <div className={styles.row}>
       <div className={styles.req}>
-        <span className={styles.reqId}>{t('inspections.reqNo', { id: inspection.request_id.slice(0, 8) })}</span>
+        <Link to={`/inspections/${inspection.id}`} className={styles.reqLink}>
+          <span className={styles.reqId}>{t('inspections.reqNo', { id: inspection.request_id.slice(0, 8) })}</span>
+        </Link>
         <span className={styles.date}>{t('inspections.assignedOn', { date: formatDate(inspection.created_at) })}</span>
       </div>
 
