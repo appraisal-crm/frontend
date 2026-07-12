@@ -3,7 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 const ru = {
-  brand: { name: 'ОЦЕНКА', sub: 'рабочее место' },
+  brand: { name: 'АВАНГАРД', sub: 'рабочее место' },
   common: { signIn: 'Войти', signOut: 'Выйти', loading: 'Загрузка', ok: 'ОК', cancel: 'Отмена' },
   theme: { light: 'Светлая тема', dark: 'Тёмная тема' },
   lang: { switch: 'English' },
@@ -30,10 +30,8 @@ const ru = {
   object: { apartment: 'Квартира', house: 'Дом', land: 'Земельный участок', commercial: 'Коммерческая', car: 'Автомобиль' },
   inspStatus: { scheduled: 'Назначен', completed: 'Завершён' },
   signin: {
-    eyebrow: 'Внутренняя система',
     title: 'Рабочее место сотрудника',
-    lead: 'Оценщики ведут заявки по этапам, инспекторы фиксируют осмотры. Войдите корпоративным аккаунтом — раздел откроется по вашей роли.',
-    foot: 'Appraisal CRM · доступ по ролям · Keycloak',
+    lead: 'Войдите корпоративным аккаунтом.',
   },
   forbidden: { title: 'Нет доступа', body: 'У вашей учётной записи нет роли для этого раздела. Обратитесь к администратору.' },
   requests: {
@@ -52,7 +50,7 @@ const ru = {
     eyebrowInspector: 'Инспектор',
     eyebrow: 'Осмотры',
     title: 'Осмотры',
-    assignHint: 'Назначение инспектора — по его идентификатору (Keycloak sub). Инспектор увидит осмотр в своём списке.',
+    assignHint: 'Назначение инспектора — по его идентификатору. Инспектор увидит осмотр в своём списке.',
     emptyInspector: 'Назначенные вам осмотры появятся здесь.',
     emptyStaff: 'Осмотры создаются автоматически, когда заявка переходит в стадию «Осмотр назначен».',
     empty: 'Осмотров нет',
@@ -70,7 +68,7 @@ const ru = {
 };
 
 const en: typeof ru = {
-  brand: { name: 'APPRAISAL', sub: 'staff workspace' },
+  brand: { name: 'AVANGARD', sub: 'staff workspace' },
   common: { signIn: 'Sign in', signOut: 'Sign out', loading: 'Loading', ok: 'OK', cancel: 'Cancel' },
   theme: { light: 'Light theme', dark: 'Dark theme' },
   lang: { switch: 'Русский' },
@@ -97,10 +95,8 @@ const en: typeof ru = {
   object: { apartment: 'Apartment', house: 'House', land: 'Land plot', commercial: 'Commercial', car: 'Vehicle' },
   inspStatus: { scheduled: 'Scheduled', completed: 'Completed' },
   signin: {
-    eyebrow: 'Internal system',
     title: 'Staff workspace',
-    lead: 'Appraisers move requests through the stages; inspectors record site visits. Sign in with your corporate account — the section opens based on your role.',
-    foot: 'Appraisal CRM · role-based access · Keycloak',
+    lead: 'Sign in with your corporate account.',
   },
   forbidden: { title: 'No access', body: 'Your account has no role for this section. Contact an administrator.' },
   requests: {
@@ -119,7 +115,7 @@ const en: typeof ru = {
     eyebrowInspector: 'Inspector',
     eyebrow: 'Inspections',
     title: 'Inspections',
-    assignHint: 'Assign an inspector by their identifier (Keycloak sub). The inspector will see the inspection in their list.',
+    assignHint: 'Assign an inspector by their identifier. The inspector will see the inspection in their list.',
     emptyInspector: 'Inspections assigned to you will appear here.',
     emptyStaff: 'Inspections are created automatically when a request enters the “Inspection scheduled” stage.',
     empty: 'No inspections',
