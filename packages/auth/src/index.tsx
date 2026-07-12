@@ -19,13 +19,20 @@ export interface AuthConfig {
   scope?: string;
 }
 
+export interface LoginOptions {
+  /** UI locale forwarded to the Keycloak login page (ui_locales). */
+  locale?: string;
+  /** App theme forwarded to the Keycloak login page (custom `theme` param). */
+  theme?: 'light' | 'dark';
+}
+
 export interface AuthState {
   isLoading: boolean;
   isAuthenticated: boolean;
   user: User | null;
   /** Realm roles from the access token (realm_access.roles). */
   roles: string[];
-  login: () => Promise<void>;
+  login: (options?: LoginOptions) => Promise<void>;
   logout: () => Promise<void>;
   /** Fresh access token for API calls (undefined when logged out). */
   getToken: () => string | undefined;
@@ -55,6 +62,7 @@ function createUserManager(config: AuthConfig): UserManager {
     scope: config.scope ?? 'openid profile',
     userStore: new WebStorageStateStore({ store: window.localStorage }),
     automaticSilentRenew: true,
+    popupWindowFeatures: { width: 440, height: 640, menubar: false, toolbar: false },
   });
 }
 
@@ -79,10 +87,15 @@ export function AuthProvider({ config, children }: { config: AuthConfig; childre
     async function bootstrap() {
       const params = new URLSearchParams(window.location.search);
       if (params.has('code') && params.has('state')) {
-        callbackInFlight ??= manager.signinRedirectCallback().catch((err: unknown) => {
-          console.error('OIDC signin callback failed', err);
-          return null;
-        });
+        // signinCallback handles both flows: for a popup it posts the response
+        // to the opener (and resolves undefined), for a redirect it returns the user.
+        callbackInFlight ??= manager.signinCallback().then(
+          (u) => u ?? null,
+          (err: unknown) => {
+            console.error('OIDC signin callback failed', err);
+            return null;
+          },
+        );
         const completed = await callbackInFlight;
         window.history.replaceState({}, document.title, window.location.pathname);
         if (active) {
@@ -110,7 +123,23 @@ export function AuthProvider({ config, children }: { config: AuthConfig; childre
     };
   }, [manager]);
 
-  const login = useCallback(() => manager.signinRedirect(), [manager]);
+  const login = useCallback(
+    async (options?: LoginOptions) => {
+      const extraQueryParams = {
+        ...(options?.locale ? { ui_locales: options.locale } : {}),
+        ...(options?.theme ? { theme: options.theme } : {}),
+      };
+      try {
+        await manager.signinPopup({ extraQueryParams });
+      } catch (err) {
+        // User dismissed the popup — not an error, stay on the page.
+        if (err instanceof Error && /closed by user/i.test(err.message)) return;
+        // Popup blocked or failed to open — fall back to a full redirect.
+        await manager.signinRedirect({ extraQueryParams });
+      }
+    },
+    [manager],
+  );
   const logout = useCallback(() => manager.signoutRedirect(), [manager]);
 
   const roles = useMemo(() => decodeRealmRoles(user?.access_token), [user]);
