@@ -1,4 +1,4 @@
-import type { InspectionStatus, ObjectType, RequestStatus } from './types';
+import type { AppraisalStatus, InspectionStatus, ObjectType, RequestStatus } from './types';
 
 /** Strictly-linear request pipeline, in order. */
 export const requestStatusOrder: RequestStatus[] = [
@@ -52,4 +52,9 @@ export const objectTypeLabels: Record<ObjectType, string> = {
 export const inspectionStatusLabels: Record<InspectionStatus, string> = {
   scheduled: 'Назначен',
   completed: 'Завершён',
+};
+
+export const appraisalStatusLabels: Record<AppraisalStatus, string> = {
+  in_progress: 'В работе',
+  completed: 'Завершена',
 };

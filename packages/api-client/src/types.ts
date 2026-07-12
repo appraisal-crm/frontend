@@ -61,3 +61,39 @@ export interface AddPhotoResponse {
   photo: Photo;
   upload_url: string;
 }
+
+export type AppraisalStatus = 'in_progress' | 'completed';
+
+export interface Comparable {
+  id: string;
+  appraisal_id: string;
+  /** Free-form analog data — the field set is not formalized yet (R-001). */
+  data: Record<string, unknown>;
+  created_at: string;
+}
+
+export interface Appraisal {
+  id: string;
+  request_id: string;
+  appraiser_id: string | null;
+  status: AppraisalStatus;
+  notes: string | null;
+  /** NUMERIC as string — no float rounding. */
+  market_value: string | null;
+  report_s3_key: string | null;
+  comparables?: Comparable[];
+  completed_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UpdateAppraisalInput {
+  appraiser_id?: string;
+  notes?: string;
+  market_value?: string;
+}
+
+export interface UploadReportResponse {
+  s3_key: string;
+  upload_url: string;
+}

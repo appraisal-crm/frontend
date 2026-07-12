@@ -11,6 +11,7 @@ export function useApi(): ApiClient {
       createApiClient({
         requestApiUrl: config.requestApiUrl,
         inspectApiUrl: config.inspectApiUrl,
+        reviewApiUrl: config.reviewApiUrl,
         getToken,
       }),
     [getToken],

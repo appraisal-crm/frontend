@@ -3,16 +3,22 @@ export * from './status';
 
 import type {
   AddPhotoResponse,
+  Appraisal,
   AppraisalRequest,
+  Comparable,
   CreateRequestInput,
   Inspection,
   RequestStatus,
+  UpdateAppraisalInput,
   UpdateInspectionInput,
+  UploadReportResponse,
 } from './types';
 
 export interface ApiClientConfig {
   requestApiUrl: string;
   inspectApiUrl: string;
+  /** Optional: the client portal never talks to review-service. */
+  reviewApiUrl?: string;
   /** Returns the current bearer token, or undefined when logged out. */
   getToken: () => string | undefined;
 }
@@ -61,11 +67,23 @@ export interface ApiClient {
     addPhoto: (id: string, filename: string) => Promise<AddPhotoResponse>;
     complete: (id: string) => Promise<Inspection>;
   };
+  appraisals: {
+    list: () => Promise<Appraisal[] | { data: Appraisal[] }>;
+    /** The appraisal of a request — 0/1-element list from the backend. */
+    getByRequest: (requestId: string) => Promise<Appraisal | null>;
+    get: (id: string) => Promise<Appraisal>;
+    update: (id: string, input: UpdateAppraisalInput) => Promise<Appraisal>;
+    addComparable: (id: string, data: Record<string, unknown>) => Promise<Comparable>;
+    deleteComparable: (id: string, comparableId: string) => Promise<void>;
+    uploadReport: (id: string, filename: string) => Promise<UploadReportResponse>;
+    complete: (id: string) => Promise<Appraisal>;
+  };
 }
 
 export function createApiClient(config: ApiClientConfig): ApiClient {
   const reqApi = makeRequest(config.requestApiUrl, config.getToken);
   const inspApi = makeRequest(config.inspectApiUrl, config.getToken);
+  const reviewApi = makeRequest(config.reviewApiUrl ?? '', config.getToken);
 
   return {
     requests: {
@@ -86,6 +104,20 @@ export function createApiClient(config: ApiClientConfig): ApiClient {
       update: (id, input) => inspApi('PATCH', `/inspections/${id}`, input),
       addPhoto: (id, filename) => inspApi('POST', `/inspections/${id}/photos`, { filename }),
       complete: (id) => inspApi('POST', `/inspections/${id}/complete`),
+    },
+    appraisals: {
+      list: () => reviewApi('GET', '/appraisals'),
+      getByRequest: async (requestId) => {
+        const res = await reviewApi<Appraisal[]>('GET', `/appraisals?request_id=${requestId}`);
+        return res[0] ?? null;
+      },
+      get: (id) => reviewApi('GET', `/appraisals/${id}`),
+      update: (id, input) => reviewApi('PATCH', `/appraisals/${id}`, input),
+      addComparable: (id, data) => reviewApi('POST', `/appraisals/${id}/comparables`, { data }),
+      deleteComparable: (id, comparableId) =>
+        reviewApi('DELETE', `/appraisals/${id}/comparables/${comparableId}`),
+      uploadReport: (id, filename) => reviewApi('POST', `/appraisals/${id}/report`, { filename }),
+      complete: (id) => reviewApi('POST', `/appraisals/${id}/complete`),
     },
   };
 }
