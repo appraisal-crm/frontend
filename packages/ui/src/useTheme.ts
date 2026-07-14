@@ -12,14 +12,33 @@ function readTheme(): Theme {
 
 /** Reads/sets the app theme, mirrors it to <html data-theme> and localStorage. */
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>(readTheme);
+  const [theme, setThemeState] = useState<Theme>(readTheme);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
 
-  const toggle = useCallback(() => setTheme((t) => (t === 'dark' ? 'light' : 'dark')), []);
+  const setTheme = useCallback((next: Theme) => {
+    const apply = () => {
+      document.documentElement.dataset.theme = next;
+      setThemeState(next);
+    };
+    // Cross-fade the whole page as one snapshot so every surface switches in sync.
+    if (
+      typeof document.startViewTransition !== 'function' ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      apply();
+      return;
+    }
+    document.startViewTransition(apply);
+  }, []);
+
+  const toggle = useCallback(
+    () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'),
+    [setTheme],
+  );
 
   return { theme, toggle, setTheme };
 }

@@ -23,9 +23,13 @@ body {
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+}
+
+/* Theme switch — useTheme wraps it in a view transition; one page-wide cross-fade. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
 }
 
 h1,
