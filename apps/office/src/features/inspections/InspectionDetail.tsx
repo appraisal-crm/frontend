@@ -5,6 +5,7 @@ import { Camera, Check, Plus, X } from 'lucide-react';
 import { useRef, useState, type ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '../../lib/format';
+import { getInspectorName } from '../../lib/inspectors';
 import { useAddPhoto, useCompleteInspection, useUpdateInspection } from './queries';
 import styles from './InspectionDetail.module.css';
 
@@ -94,7 +95,7 @@ export function InspectionDetail({ inspection }: { inspection: Inspection }) {
         <span>
           {t('inspections.colInspector')}:{' '}
           {inspection.inspector_id ? (
-            <code className={styles.mono}>{inspection.inspector_id.slice(0, 8)}…</code>
+            <code className={styles.mono}>{getInspectorName(inspection.inspector_id)}</code>
           ) : (
             t('inspections.unassigned')
           )}
