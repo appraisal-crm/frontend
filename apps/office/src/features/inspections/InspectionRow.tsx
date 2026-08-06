@@ -1,10 +1,11 @@
 import type { Inspection } from '@appraisal/api-client';
-import { Badge, Button, Input } from '@appraisal/ui';
+import { Badge, Button, Input, Select } from '@appraisal/ui';
 import { Check, UserPlus } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../lib/format';
+import { getInspectorName, KNOWN_INSPECTORS } from '../../lib/inspectors';
 import { useAssignInspector, useCompleteInspection } from './queries';
 import styles from './InspectionsTable.module.css';
 
@@ -21,15 +22,17 @@ export function InspectionRow({
   const complete = useCompleteInspection();
   const assign = useAssignInspector();
   const [assigning, setAssigning] = useState(false);
-  const [inspectorId, setInspectorId] = useState('');
+  const [selectedInspector, setSelectedInspector] = useState(KNOWN_INSPECTORS[0]?.id ?? '');
+  const [customInspectorId, setCustomInspectorId] = useState('');
 
   const done = inspection.status === 'completed';
 
   function submitAssign(e: FormEvent) {
     e.preventDefault();
-    if (!inspectorId.trim()) return;
+    const finalId = selectedInspector === 'custom' ? customInspectorId.trim() : selectedInspector.trim();
+    if (!finalId) return;
     assign.mutate(
-      { id: inspection.id, inspectorId: inspectorId.trim() },
+      { id: inspection.id, inspectorId: finalId },
       { onSuccess: () => setAssigning(false) },
     );
   }
@@ -45,7 +48,7 @@ export function InspectionRow({
 
       <div className={styles.assignee}>
         {inspection.inspector_id ? (
-          <span className={styles.mono}>{inspection.inspector_id.slice(0, 8)}…</span>
+          <span className={styles.mono}>{getInspectorName(inspection.inspector_id)}</span>
         ) : (
           <span className={styles.unassigned}>{t('inspections.unassigned')}</span>
         )}
@@ -70,14 +73,38 @@ export function InspectionRow({
         )}
         {canAssign && assigning && (
           <form className={styles.assignForm} onSubmit={submitAssign}>
-            <Input
+            <Select
               autoFocus
-              value={inspectorId}
-              onChange={(e) => setInspectorId(e.target.value)}
-              placeholder={t('inspections.assignPlaceholder')}
-              aria-label={t('inspections.assignPlaceholder')}
-            />
-            <Button size="sm" type="submit" loading={assign.isPending}>
+              value={selectedInspector}
+              onChange={(e) => {
+                setSelectedInspector(e.target.value);
+                if (e.target.value !== 'custom') {
+                  setCustomInspectorId('');
+                }
+              }}
+            >
+              <option value="">{t('inspections.selectInspector')}</option>
+              {KNOWN_INSPECTORS.map((insp) => (
+                <option key={insp.id} value={insp.id}>
+                  {insp.name} (@{insp.username})
+                </option>
+              ))}
+              <option value="custom">{t('inspections.customInspector')}</option>
+            </Select>
+            {selectedInspector === 'custom' && (
+              <Input
+                value={customInspectorId}
+                onChange={(e) => setCustomInspectorId(e.target.value)}
+                placeholder={t('inspections.assignPlaceholder')}
+                aria-label={t('inspections.assignPlaceholder')}
+              />
+            )}
+            <Button
+              size="sm"
+              type="submit"
+              loading={assign.isPending}
+              disabled={!selectedInspector || (selectedInspector === 'custom' && !customInspectorId.trim())}
+            >
               {t('common.ok')}
             </Button>
             <Button size="sm" variant="ghost" type="button" onClick={() => setAssigning(false)}>
