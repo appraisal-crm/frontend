@@ -1,0 +1,41 @@
+name: appraisal-frontend
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: client
+    container_name: appraisal-frontend-client
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_KEYCLOAK_AUTHORITY=http://localhost:8180/realms/appraisal
+      - VITE_KEYCLOAK_CLIENT_ID=appraisal-frontend
+      - VITE_REQUEST_API_URL=http://localhost:8080
+      - VITE_INSPECT_API_URL=http://localhost:8082
+    networks:
+      - default
+      - appraisal_shared
+
+  office:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: office
+    container_name: appraisal-frontend-office
+    ports:
+      - "5174:5174"
+    environment:
+      - VITE_KEYCLOAK_AUTHORITY=http://localhost:8180/realms/appraisal
+      - VITE_KEYCLOAK_CLIENT_ID=appraisal-frontend
+      - VITE_REQUEST_API_URL=http://localhost:8080
+      - VITE_INSPECT_API_URL=http://localhost:8082
+      - VITE_REVIEW_API_URL=http://localhost:8084
+    networks:
+      - default
+      - appraisal_shared
+
+networks:
+  appraisal_shared:
+    external: true
